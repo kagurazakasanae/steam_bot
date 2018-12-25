@@ -65,7 +65,7 @@ function urllib($function, $url, $data = array(), $header = array(), $timedout =
 		curl_setopt($curl, CURLOPT_POST, 1);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 	}
-	curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+	curl_setopt($curl, CURLOPT_HTTPHEADER, $curl_header);
 	$r = curl_exec($curl);
 	//var_dump(curl_error($curl));
 	//var_dump(curl_errno($curl));
