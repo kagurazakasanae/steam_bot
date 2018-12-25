@@ -127,16 +127,27 @@ function inventory_filter($inventory, $filter, $exclude = array()){
 }
 
 
-function urllib($function, $url, $data = array(), $header = array()){
+function urllib($function, $url, $data = array(), $header = array(), $timedout = 10){
 	if(!in_array('User-Agent', $header)){
 		$header['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36';
 	}
 	$curl = curl_init();
 	curl_setopt($curl, CURLOPT_URL, $url);
-	curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+	curl_setopt($curl, CURLOPT_TIMEOUT, $timedout);
 	curl_setopt($curl, CURLOPT_HEADER, 0);
 	curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($curl, CURLOPT_COOKIE, $header['Cookie']);
+	if(isset($header['Cookie'])){
+		curl_setopt($curl, CURLOPT_COOKIE, $header['Cookie']);
+		unset($header['Cookie']);
+	}
+	if(isset($header['Referer'])){
+		curl_setopt($curl, CURLOPT_REFERER, $header['Referer']);
+		unset($header['Referer']);
+	}
+	$curl_header = array();
+	foreach($header as $k => $v){
+		$curl_header[] = $k . ": " . $v;
+	}
 	//curl_setopt($curl, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);  
 	//curl_setopt($curl, CURLOPT_PROXY, "127.0.0.1:1080");  
 	if($function == 'POST'){
