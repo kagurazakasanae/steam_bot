@@ -128,7 +128,7 @@ function inventory_filter($inventory, $filter, $exclude = array()){
 
 
 function urllib($function, $url, $data = array(), $header = array(), $timedout = 10){
-	if(!in_array('User-Agent', $header)){
+	if(!isset($header['User-Agent'])){
 		$header['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36';
 	}
 	$curl = curl_init();
